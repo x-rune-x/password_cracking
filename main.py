@@ -32,7 +32,7 @@ def check_password(user, guess):
 
 
 # When comparing string equality, the check will return early if any position in the guess and the password
-# do not match. Therefore
+# do not match. Therefore guesses with more correct characters in the correct positions will take longer to return.
 def crack_password(user, length, verbose=False):
     guess = random_str(length)
     counter = itertools.count()
