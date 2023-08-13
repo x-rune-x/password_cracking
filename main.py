@@ -26,7 +26,6 @@ def check_password(user, guess):
     return True
 
 
-# Can only use this method
 # def check_password(user, guess):
 #     actual = password_database[user]
 #     return actual == guess
