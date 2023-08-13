@@ -6,14 +6,34 @@ import timeit
 import numpy as np
 
 allowed_chars = string.ascii_lowercase + " "
-password_database = {"james": "ammagamma"}
+password_database = {
+    "james": "ammagamma",
+    "rune": "snorlax",
+    "jotaro": "yareyare"
+}
 
 
+# Very simple equality check for password. Mimics string equality checking. Based on the way simple string equality
+# checking works, more correct passwords will take longer to be returned.
 def check_password(user, guess):
     actual = password_database[user]
-    return actual == guess
+    if len(guess) != len(actual):
+        return False
+
+    for i in range(len(actual)):
+        if guess[i] != actual[i]:
+            return False
+    return True
 
 
+# Can only use this method
+# def check_password(user, guess):
+#     actual = password_database[user]
+#     return actual == guess
+
+
+# When comparing string equality, the check will return early if any position in the guess and the password
+# do not match. Therefore
 def crack_password(user, length, verbose=False):
     guess = random_str(length)
     counter = itertools.count()
@@ -48,6 +68,9 @@ def random_str(size):
     return ''.join(random.choices(allowed_chars, k=size))
 
 
+# First step in checking strings for equality is to check if they have the same length.
+# Because of this password guesses of the correct length take longer to return because the actual values at each
+# position then have to be checked. This can be exploited to get the length of the password.
 def crack_length(user, max_len=32, verbose=False) -> int:
     trials = 1000
     times = np.empty(max_len)
@@ -68,7 +91,7 @@ def crack_length(user, max_len=32, verbose=False) -> int:
 
 
 def main():
-    user = "james"
+    user = "jotaro"
     length = crack_length(user, verbose=True)
     print(f"using most likely length {length}")
     input("hit enter to continue...")
